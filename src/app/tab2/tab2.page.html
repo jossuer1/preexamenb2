@@ -1,15 +1,235 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title> Tab 2 </ion-title>
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Actividades</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding campus-pantalla">
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <div class="cabecera-actividades">
+    <h2>Actividades registradas</h2>
+    <ion-button
+      shape="round"
+      aria-label="Agregar actividad"
+      aria-haspopup="dialog"
+      [attr.aria-expanded]="mostrarFormulario"
+      [disabled]="ocupado || mostrarFormulario"
+      (click)="abrirFormulario()">
+      <ion-icon name="add-outline" slot="icon-only" aria-hidden="true"></ion-icon>
+    </ion-button>
+  </div>
+
+  <p *ngIf="errorCarga">{{ errorCarga }}</p>
+  <p *ngIf="cargando">Cargando actividades…</p>
+  <p *ngIf="!cargando && !errorCarga && actividades.length === 0">
+    No hay actividades registradas.
+  </p>
+
+  <details class="actividad-card" *ngFor="let actividad of actividades; trackBy: identificarActividad">
+    <summary>
+      <span>{{ actividad.titulo }}</span>
+      <ion-badge [color]="actividad.completada ? 'success' : 'medium'">
+        {{ actividad.completada ? 'Completada' : 'Pendiente' }}
+      </ion-badge>
+    </summary>
+
+    <div class="detalle-actividad">
+      <p>{{ actividad.descripcion }}</p>
+      <p><strong>Tipo:</strong> {{ actividad.tipo }}</p>
+      <p><strong>Entrega:</strong> {{ actividad.fechaEntrega }}</p>
+      <p><strong>Prioridad:</strong> {{ actividad.prioridad }}</p>
+
+      <div class="acciones-actividad">
+        <ion-button size="small" shape="round" fill="outline"
+          [disabled]="!actividad.id || ocupado" (click)="editarActividad(actividad)">
+          Editar
+        </ion-button>
+        <ion-button size="small" shape="round" [color]="actividad.completada ? 'medium' : 'success'"
+          [disabled]="!actividad.id || ocupado" (click)="cambiarEstado(actividad)">
+          {{ actividad.completada ? 'Marcar pendiente' : 'Completar' }}
+        </ion-button>
+        <ion-button size="small" shape="round" color="danger" fill="outline"
+          [disabled]="!actividad.id || ocupado" (click)="confirmarEliminar(actividad)">
+          Eliminar
+        </ion-button>
+      </div>
+
+    </div>
+  </details>
+
+  <ion-modal
+    class="modal-actividad modal-eliminar"
+    aria-labelledby="titulo-eliminar-actividad"
+    aria-describedby="mensaje-eliminar-actividad"
+    [isOpen]="actividadParaEliminarId !== null"
+    [canDismiss]="puedeCerrarConfirmacion"
+    (didDismiss)="cerrarConfirmacionEliminar()">
+    <ng-template>
+      <div class="contenido-confirmacion">
+        <h2 id="titulo-eliminar-actividad">Eliminar actividad</h2>
+        <p id="mensaje-eliminar-actividad">¿Quieres eliminar esta actividad?</p>
+        <div class="acciones-modal">
+          <ion-button shape="round" fill="outline"
+            [disabled]="ocupado" (click)="cerrarConfirmacionEliminar()">
+            Cancelar
+          </ion-button>
+          <ion-button shape="round" color="danger"
+            [disabled]="ocupado" (click)="eliminarActividadConfirmada()">
+            {{ eliminandoId ? 'Eliminando…' : 'Eliminar' }}
+          </ion-button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal
+    class="modal-actividad"
+    aria-labelledby="titulo-formulario-actividad"
+    [isOpen]="mostrarFormulario"
+    [canDismiss]="puedeCerrarFormulario"
+    (didDismiss)="cancelarEdicion()">
+    <ng-template>
+  <div class="contenido-modal-actividad">
+  <h2 id="titulo-formulario-actividad">
+    {{ nuevaActividad.id ? 'Editar actividad' : 'Nueva actividad académica' }}
+  </h2>
+
+  <!-- FORMULARIO -->
+  <ion-card class="formulario-card">
+    <ion-card-content>
+
+      <!-- TITULO -->
+      <ion-item>
+        <ion-input
+          label="Título"
+          labelPlacement="stacked"
+          placeholder="Ej. Proyecto Ionic"
+          [(ngModel)]="nuevaActividad.titulo"
+          [maxlength]="100"
+          required>
+        </ion-input>
+      </ion-item>
+
+      <!-- DESCRIPCION -->
+      <ion-item>
+        <ion-textarea
+          label="Descripción"
+          labelPlacement="stacked"
+          placeholder="Describe la actividad"
+          [(ngModel)]="nuevaActividad.descripcion"
+          [autoGrow]="true"
+          [rows]="3"
+          required>
+        </ion-textarea>
+      </ion-item>
+
+      <!-- TIPO -->
+      <ion-item>
+        <ion-select
+          label="Tipo de actividad"
+          labelPlacement="stacked"
+          placeholder="Seleccionar"
+          interface="popover"
+          [interfaceOptions]="{ cssClass: 'campus-selector' }"
+          [(ngModel)]="nuevaActividad.tipo">
+
+          <ion-select-option value="Tarea">
+            Tarea
+          </ion-select-option>
+
+          <ion-select-option value="Proyecto">
+            Proyecto
+          </ion-select-option>
+
+          <ion-select-option value="Examen">
+            Examen
+          </ion-select-option>
+
+          <ion-select-option value="Investigación">
+            Investigación
+          </ion-select-option>
+
+          <ion-select-option value="Taller">
+            Taller
+          </ion-select-option>
+
+        </ion-select>
+      </ion-item>
+
+      <!-- FECHA -->
+      <div class="campo-fecha">
+        <label for="fecha-entrega">Fecha de entrega *</label>
+        <input id="fecha-entrega" type="date" [(ngModel)]="nuevaActividad.fechaEntrega" required />
+      </div>
+
+      <!-- PRIORIDAD -->
+      <div class="campo-prioridad">
+        <ion-label>Prioridad *</ion-label>
+
+        <ion-radio-group
+          [(ngModel)]="nuevaActividad.prioridad">
+
+          <ion-item>
+            <ion-radio
+              value="Alta"
+              labelPlacement="end">
+              Alta
+            </ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-radio
+              value="Media"
+              labelPlacement="end">
+              Media
+            </ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-radio
+              value="Baja"
+              labelPlacement="end">
+              Baja
+            </ion-radio>
+          </ion-item>
+
+        </ion-radio-group>
+      </div>
+
+      <!-- COMPLETADA -->
+      <ion-item lines="none">
+        <ion-checkbox
+          labelPlacement="end"
+          [(ngModel)]="nuevaActividad.completada">
+          ¿Actividad completada?
+        </ion-checkbox>
+      </ion-item>
+
+      <!-- GUARDAR -->
+      <div class="acciones-modal">
+        <ion-button shape="round" color="danger" [disabled]="ocupado" (click)="cancelarEdicion()">
+          Cancelar
+        </ion-button>
+        <ion-button shape="round" [disabled]="ocupado" (click)="guardarActividad()">
+          {{ guardando ? 'Guardando…' : nuevaActividad.id ? 'Guardar cambios' : 'Guardar' }}
+        </ion-button>
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+  </div>
+    </ng-template>
+  </ion-modal>
+
+  <!-- MENSAJES -->
+  <ion-toast
+    [isOpen]="mostrarToast"
+    [message]="mensaje"
+    [color]="colorToast"
+    [duration]="2500"
+    (didDismiss)="mostrarToast = false">
+  </ion-toast>
+
 </ion-content>

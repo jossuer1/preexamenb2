@@ -1,15 +1,184 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title> Tab 1 </ion-title>
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      {{ nombreApp }}
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding campus-pantalla">
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <!-- BIENVENIDA -->
+  <div class="bienvenida">
+
+    <ion-icon
+      name="school-outline"
+      class="icono-principal">
+    </ion-icon>
+
+    <h1>Bienvenido a SmartCampus</h1>
+
+    <p>{{ descripcion }}</p>
+
+    <div class="fecha">
+      <ion-icon name="calendar-outline"></ion-icon>
+      <span>{{ fechaActual }}</span>
+    </div>
+
+  </div>
+
+  <!-- TITULO -->
+  <div class="seccion-titulo">
+    <h2>Nuestros módulos</h2>
+    <p>Selecciona una opción para comenzar</p>
+  </div>
+
+  <!-- TARJETAS -->
+  <div class="tarjetas-grid">
+
+    <!-- ACTIVIDADES -->
+    <ion-card class="tarjeta">
+      <ion-card-header>
+        <ion-icon
+          name="clipboard-outline"
+          class="icono-tarjeta actividades">
+        </ion-icon>
+
+        <ion-card-title>
+          Actividades
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>
+          Registra y administra tus
+          actividades académicas.
+        </p>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          routerLink="/tabs/tab2">
+          Abrir
+          <ion-icon
+            slot="end"
+            name="arrow-forward-outline">
+          </ion-icon>
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- USUARIOS -->
+    <ion-card class="tarjeta">
+      <ion-card-header>
+        <ion-icon
+          name="people-outline"
+          class="icono-tarjeta usuarios">
+        </ion-icon>
+
+        <ion-card-title>
+          Usuarios
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>
+          Consulta usuarios de una API
+          y realiza búsquedas.
+        </p>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          routerLink="/tabs/tab3">
+          Abrir
+          <ion-icon
+            slot="end"
+            name="arrow-forward-outline">
+          </ion-icon>
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- DISPOSITIVO -->
+    <ion-card class="tarjeta">
+      <ion-card-header>
+        <ion-icon
+          name="phone-portrait-outline"
+          class="icono-tarjeta dispositivo">
+        </ion-icon>
+
+        <ion-card-title>
+          Dispositivo
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>
+          Utiliza el acelerómetro
+          y almacenamiento local.
+        </p>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          routerLink="/tabs/tab4">
+          Abrir
+          <ion-icon
+            slot="end"
+            name="arrow-forward-outline">
+          </ion-icon>
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- INICIO -->
+    <ion-card class="tarjeta">
+      <ion-card-header>
+        <ion-icon
+          name="school-outline"
+          class="icono-tarjeta inicio">
+        </ion-icon>
+
+        <ion-card-title>
+          Inicio
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>
+          Conoce las funcionalidades
+          principales de SmartCampus.
+        </p>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          routerLink="/tabs/tab1">
+          Ver inicio
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+
+  <!-- INFORMACION -->
+  <ion-card class="info-card">
+    <ion-card-header>
+      <ion-card-title>
+        Información del proyecto
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p><strong>Aplicación:</strong> {{ nombreApp }}</p>
+      <p><strong>Integrantes:</strong> {{ integrantes }}</p>
+
+      <ion-badge color="success">
+        Proyecto académico
+      </ion-badge>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>

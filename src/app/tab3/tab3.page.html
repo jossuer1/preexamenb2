@@ -1,15 +1,51 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title> Tab 3 </ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Usuarios</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding campus-pantalla">
+  <div class="directorio">
+    <div class="busqueda-usuarios">
+      <ion-searchbar
+        aria-label="Buscar por nombre"
+        placeholder="Buscar por nombre"
+        (ionInput)="buscar($event)">
+      </ion-searchbar>
+    </div>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+    @if (cargando()) {
+      <div class="estado" role="status">
+        <ion-spinner aria-hidden="true"></ion-spinner>
+        <p>Cargando usuarios…</p>
+      </div>
+    } @else if (error()) {
+      <div class="estado">
+        <p role="alert">No se pudieron cargar los usuarios.</p>
+        <ion-button shape="round" fill="outline" (click)="cargarUsuarios()">Reintentar</ion-button>
+      </div>
+    } @else {
+      @for (usuario of visibles(); track usuario.id) {
+        <ion-card>
+          <ion-card-header>
+            <span class="avatar" aria-hidden="true">{{ iniciales(usuario.name) }}</span>
+            <div>
+              <ion-card-title>{{ usuario.name }}</ion-card-title>
+              <ion-badge color="primary">&#64;{{ usuario.username }}</ion-badge>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <p><ion-icon name="mail-outline" aria-label="Correo"></ion-icon> {{ usuario.email }}</p>
+            <p><ion-icon name="call-outline" aria-label="Teléfono"></ion-icon> {{ usuario.phone }}</p>
+          </ion-card-content>
+        </ion-card>
+      } @empty {
+        <p class="estado" role="status">No hay usuarios que coincidan con la búsqueda.</p>
+      }
+
+      <ion-infinite-scroll [disabled]="!quedanUsuarios()" (ionInfinite)="mostrarMas($event)">
+        <ion-infinite-scroll-content loadingText="Cargando más usuarios…"></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    }
+  </div>
 </ion-content>

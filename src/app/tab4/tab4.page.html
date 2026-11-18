@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Dispositivo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding campus-pantalla">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Acelerómetro</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-badge [color]="estado() === 'activo' ? 'success' : 'medium'" role="status">
+        @switch (estado()) {
+          @case ('activo') { Activo }
+          @case ('iniciando') { Iniciando… }
+          @case ('esperando') { Esperando datos }
+          @case ('deteniendo') { Deteniendo… }
+          @default { Detenido }
+        }
+      </ion-badge>
+
+      @if (lectura(); as actual) {
+        <p>{{ estado() === 'activo' ? 'Lectura en tiempo real' : 'Última lectura' }} ·
+          {{ actual.conGravedad ? 'Con gravedad' : 'Sin gravedad' }} (m/s²)</p>
+        <dl class="ejes">
+          <div><dt>X</dt><dd>{{ actual.x | number:'1.2-2' }}</dd></div>
+          <div><dt>Y</dt><dd>{{ actual.y | number:'1.2-2' }}</dd></div>
+          <div><dt>Z</dt><dd>{{ actual.z | number:'1.2-2' }}</dd></div>
+        </dl>
+      } @else {
+        <p>Inicia el sensor para ver la aceleración en m/s².</p>
+      }
+
+      @if (mensajeSensor()) {
+        <p role="alert">{{ mensajeSensor() }}</p>
+      }
+
+      <div class="acciones">
+        <ion-button shape="round" [disabled]="estado() !== 'detenido'" (click)="iniciarLectura()">
+          Iniciar lectura
+        </ion-button>
+        <ion-button shape="round" fill="outline" [disabled]="estado() === 'detenido' || estado() === 'deteniendo'"
+          (click)="detenerLectura()">
+          Detener lectura
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Lectura guardada</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      @if (guardada(); as local) {
+        <p>{{ local.fecha | date:'dd/MM/yyyy HH:mm:ss' }} ·
+          {{ local.conGravedad ? 'Con gravedad' : 'Sin gravedad' }} (m/s²)</p>
+        <dl class="ejes">
+          <div><dt>X</dt><dd>{{ local.x | number:'1.2-2' }}</dd></div>
+          <div><dt>Y</dt><dd>{{ local.y | number:'1.2-2' }}</dd></div>
+          <div><dt>Z</dt><dd>{{ local.z | number:'1.2-2' }}</dd></div>
+        </dl>
+      } @else if (!operacionLocal()) {
+        <p>Aún no hay una lectura guardada.</p>
+      }
+
+      @if (mensajeLocal()) {
+        <p role="status">{{ mensajeLocal() }}</p>
+      }
+
+      <div class="acciones">
+        <ion-button shape="round" [disabled]="!lectura() || operacionLocal()" (click)="guardarLectura()">
+          {{ guardada() ? 'Reemplazar lectura' : 'Guardar lectura' }}
+        </ion-button>
+        @if (guardada()) {
+          <ion-button shape="round" fill="outline" color="danger" [disabled]="operacionLocal()" (click)="borrarLectura()">
+            Borrar lectura
+          </ion-button>
+        }
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

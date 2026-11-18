@@ -1,0 +1,73 @@
+﻿ion-content {
+  --background: #f4f6fb;
+}
+
+.directorio {
+  max-width: 680px;
+  margin-inline: auto;
+}
+
+ion-searchbar {
+  padding: 0;
+  --background: var(--campus-superficie);
+  --color: var(--campus-texto);
+  --border-radius: 14px;
+  --box-shadow: none;
+}
+
+.busqueda-usuarios {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 6px;
+  border: 1px solid var(--campus-borde);
+  border-radius: var(--campus-radio);
+  background: var(--campus-superficie);
+  box-shadow: var(--campus-sombra);
+}
+
+ion-card {
+  margin: 12px 0;
+  border-radius: 16px;
+  box-shadow: 0 3px 12px rgb(0 0 0 / 6%);
+}
+
+ion-card-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  overflow-wrap: anywhere;
+}
+
+ion-card-title {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  flex: 0 0 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
+  font-weight: 700;
+}
+
+ion-card-content p {
+  overflow-wrap: anywhere;
+  margin-bottom: 6px;
+}
+
+ion-card-content ion-icon {
+  margin-inline-end: 6px;
+  vertical-align: middle;
+}
+
+.estado {
+  padding: 24px 12px;
+  text-align: center;
+  color: var(--campus-texto);
+}

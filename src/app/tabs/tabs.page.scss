@@ -1,1 +1,36 @@
 
+.campus-navegacion {
+  --background: var(--campus-superficie);
+  --border: 0;
+  flex: 0 0 auto;
+  margin: 0 clamp(6px, 2vw, 16px) 6px;
+  padding-inline: 4px;
+  border: 1px solid var(--campus-borde);
+  border-radius: 20px;
+  box-shadow: var(--campus-sombra);
+}
+
+ion-tab-button {
+  --background: transparent;
+  --color: var(--ion-color-medium-shade);
+  --color-selected: var(--ion-color-primary);
+  --padding-start: 2px;
+  --padding-end: 2px;
+  min-width: 0;
+  min-height: 48px;
+  margin: 4px 0;
+  border-radius: 14px;
+  font-size: clamp(10px, 3vw, 13px);
+}
+
+ion-tab-button.tab-selected {
+  --background: var(--campus-seleccion);
+  font-weight: 700;
+}
+
+@media (prefers-color-scheme: dark) {
+  ion-tab-button {
+    --color: var(--campus-texto);
+    --color-selected: #c7d8ff;
+  }
+}

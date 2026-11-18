@@ -35,3 +35,76 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+ion-content.campus-pantalla {
+  --background: var(--campus-fondo);
+  --color: var(--campus-texto);
+}
+
+.campus-pantalla ion-card {
+  --background: var(--campus-superficie);
+  border: 1px solid var(--campus-borde);
+  border-radius: var(--campus-radio);
+  box-shadow: var(--campus-sombra);
+}
+
+ion-header ion-title {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+ion-modal.modal-actividad {
+  --background: var(--campus-superficie);
+  --box-shadow: 0 24px 64px rgb(12 24 51 / 28%);
+}
+
+ion-modal.modal-actividad::part(content) {
+  border: 1px solid var(--campus-borde);
+}
+
+ion-popover.campus-selector {
+  --background: var(--campus-superficie);
+  --box-shadow: var(--campus-sombra);
+}
+
+ion-popover.campus-selector::part(content) {
+  border: 1px solid var(--campus-borde);
+  border-radius: 14px;
+}
+
+.campus-pantalla .actividad-card {
+  border: 1px solid var(--campus-borde);
+  background: var(--campus-superficie);
+  box-shadow: var(--campus-sombra);
+}
+
+.campus-pantalla .actividad-card[open] {
+  border-color: var(--ion-color-primary);
+}
+
+.campus-pantalla .actividad-card summary {
+  color: var(--campus-texto);
+}
+
+.campus-pantalla .actividad-card summary::marker {
+  color: var(--ion-color-primary);
+}
+
+.campus-pantalla .actividad-card summary:focus-visible {
+  outline: 2px solid var(--ion-color-primary);
+  outline-offset: -3px;
+  border-radius: var(--campus-radio);
+}
+
+.campus-pantalla .seccion-titulo h2,
+.campus-pantalla .cabecera-actividades h2,
+.contenido-modal-actividad h2,
+.contenido-modal-actividad .campo-fecha label,
+.contenido-modal-actividad .campo-prioridad ion-label,
+.contenido-confirmacion h2 {
+  color: var(--campus-texto);
+}
+
+.contenido-modal-actividad .formulario-card {
+  --background: var(--campus-superficie);
+}

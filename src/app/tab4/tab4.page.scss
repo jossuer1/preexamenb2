@@ -1,0 +1,42 @@
+﻿ion-content {
+  --background: #f4f6fb;
+}
+
+ion-card {
+  max-width: 640px;
+  margin: 0 auto 16px;
+  border-radius: 16px;
+}
+
+ion-card-content p {
+  margin-block: 8px;
+}
+
+.ejes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.ejes div {
+  padding: 8px 4px;
+  border: 1px solid var(--campus-borde);
+  border-radius: 12px;
+  background: var(--campus-seleccion);
+  color: var(--campus-texto);
+}
+
+.ejes dd {
+  margin: 0;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  margin-top: 12px;
+}

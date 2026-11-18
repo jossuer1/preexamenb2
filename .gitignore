@@ -74,3 +74,24 @@ Thumbs.db
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Configuración local y credenciales
+/src/app/config/firebase.config.ts
+.env
+.env.*
+!.env.example
+.npmrc
+google-services.json
+GoogleService-Info.plist
+*firebase-adminsdk*.json
+*service-account*.json
+local.properties
+keystore.properties
+key.properties
+signing.properties
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key

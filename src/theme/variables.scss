@@ -1,2 +1,23 @@
 // For information on how to create your own theme, please refer to:
 // https://ionicframework.com/docs/theming/
+
+:root {
+  --campus-fondo: #f4f6fb;
+  --campus-superficie: #fff;
+  --campus-borde: #dce4f2;
+  --campus-texto: #172449;
+  --campus-seleccion: #e8efff;
+  --campus-sombra: 0 8px 22px rgb(23 36 73 / 9%);
+  --campus-radio: 18px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --campus-fondo: #111827;
+    --campus-superficie: #1b2538;
+    --campus-borde: #35445f;
+    --campus-texto: #edf3ff;
+    --campus-seleccion: #273c61;
+    --campus-sombra: 0 8px 22px rgb(0 0 0 / 24%);
+  }
+}

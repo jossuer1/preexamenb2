@@ -9,10 +9,12 @@ import {
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular';
 
 import { AppComponent } from './app/app.component';
+import { appConfig } from './app/app.config';
 import { routes } from './app/app.routes';
 
 bootstrapApplication(AppComponent, {
   providers: [
+    ...appConfig.providers,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules), withComponentInputBinding()),
